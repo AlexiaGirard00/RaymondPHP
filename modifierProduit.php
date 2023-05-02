@@ -101,9 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $sourceImageWidth = $sourceProperties[0];
                     $sourceImageHeight = $sourceProperties[1];
                     // Check whether file type is valid 
-                    if ($sourceImageWidth > 300) {
-                        $new_width = 300;
-                        $new_height = $sourceImageHeight / ($sourceImageWidth / 300);
+                    if ($sourceImageWidth > 416) {
+                        $new_width = 416;
+                        $new_height = $sourceImageHeight / ($sourceImageWidth / 416);
                     } else {
                         $new_width = $sourceImageWidth;
                         $new_height = $sourceImageHeight;

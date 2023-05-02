@@ -51,7 +51,7 @@ require_once("config/connexion.php");
 
                       //Aller chercher les images du produit en cours
                       $chemin = "";
-                      $queryImage = "SELECT ImageChemin FROM `dbo.imageproduit` WHERE IdProduitFk = ".$row['IdProduit']."";
+                      $queryImage = "SELECT ImageChemin FROM `dbo.imageproduit` WHERE IdProduitFk = ".$row['IdProduit']." LIMIT 1";
                       //Faire la query
                       $resImage = $connect->query($queryImage);
                       //FIN aller chercher les images du produits
@@ -82,7 +82,7 @@ require_once("config/connexion.php");
                                       <div class='col-sm-8'><!--SAME-->
                                         <h2 class='w-title'>".$row['NomProduit']."</h2><!--Titre/NomProduit-->
                                         <div class='w-more'><!--SAME-->
-                                          <span class='w-ctegory'>".$row['NomCategorie']."</span> / <span class='w-date'>".$row['PrixProduit']." $ </span><!--categorieProduit/PrixProduit-->
+                                          <span class='w-ctegory'>".$row['NomCategorie']."</span> / <span class='w-date'>".$row['PrixProduit']." $ </span>
                                         </div>
                                       </div>
                                       <div class='col-sm-4'><!--SAME-->
