@@ -175,9 +175,12 @@
         <div class="row">
 
         <?php
-          $resultat = mysqli_query($connect, "SELECT `dbo.produits`.`IdProduit`,`dbo.produits`.`NomProduit`, `dbo.categories`.`NomCategorie`, `dbo.produits`.`PrixProduit`
+  $resultat = mysqli_query($connect, "SELECT `dbo.produits`.`IdProduit`,`dbo.produits`.`NomProduit`, `dbo.categories`.`NomCategorie`, `dbo.produits`.`PrixProduit`, `dbo.produits`.`DateProduit`
           FROM `dbo.produits` 
-            LEFT JOIN `dbo.categories` ON `dbo.produits`.`IdCategorieFk` = `dbo.categories`.`IdCategorie` WHERE `dbo.produits`.`ActifProduit` = 0");
+            LEFT JOIN `dbo.categories` ON `dbo.produits`.`IdCategorieFK` = `dbo.categories`.`IdCategorie` WHERE `dbo.produits`.`ActifProduit` = 0 ORDER BY `dbo.produits`.`DateProduit` DESC LIMIT 3");
+          // $resultat = mysqli_query($connect, "SELECT `dbo.produits`.`IdProduit`,`dbo.produits`.`NomProduit`, `dbo.categories`.`NomCategorie`, `dbo.produits`.`PrixProduit`
+          // FROM `dbo.produits` 
+          //   LEFT JOIN `dbo.categories` ON `dbo.produits`.`IdCategorieFk` = `dbo.categories`.`IdCategorie` WHERE `dbo.produits`.`ActifProduit` = 0");
           //Il va manquer le ORDER BY Descending et le TAKE(3) pour avoir seulement les 3 plus recents!
           //boucle pour afficher toute les cartes
           while ($row = mysqli_fetch_array($resultat)) {

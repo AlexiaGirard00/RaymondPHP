@@ -12,6 +12,7 @@
     //Définir les variables
     $NomProduit = "";
     $IdCategorie = "";
+    $DateProduit = "";
     $DescriptionProduit = "";
     $DimensionProduit = "";
     $TypeDeBoisProduit = "";
@@ -194,12 +195,12 @@
 
         //Mettre actif
         $EstActif = 1;
-
+        $DateProduit = Date("Y/m/d");
 
         //Vérifier les inputs avant de les envoyer à la BD
         if(empty($nom_err) && empty($desc_err) && empty($dim_err) && empty($typeBois_err) && empty($prix_err)&& empty($image_err)){
-            $sql = "INSERT INTO `dbo.produits` (NomProduit, IdCategorieFk, DescriptionProduit, DimensionProduit, TypeDeBoisProduit, CapaciteProduit, PrixProduit, ActifProduit) ".
-                " VALUES (:nom, :cat, :desc, :dim, :typeBois, :capacite, :prix, :actif)";
+            $sql = "INSERT INTO `dbo.produits` (NomProduit, IdCategorieFk, DescriptionProduit, DimensionProduit, TypeDeBoisProduit, CapaciteProduit, PrixProduit, DateProduit, ActifProduit) ".
+                " VALUES (:nom, :cat, :desc, :dim, :typeBois, :capacite, :prix, :date , :actif)";
 
             if($stmt = $pdo->prepare($sql)){
                 //set avant de bind
@@ -210,6 +211,7 @@
                 $param_typeBois = $TypeDeBoisProduit;
                 $param_capacite = $CapaciteProduit;
                 $param_prix = $PrixProduit;
+                $param_date = $DateProduit;
                 $param_actif = $EstActif;
 
                 $stmt->bindParam(":nom", $param_nom);
@@ -219,6 +221,7 @@
                 $stmt->bindParam(":typeBois", $param_typeBois);
                 $stmt->bindParam(":capacite", $param_capacite);
                 $stmt->bindParam(":prix", $param_prix);
+                $stmt->bindParam(":date", $param_date);
                 $stmt->bindParam(":actif", $param_actif);
 
                 //Execute

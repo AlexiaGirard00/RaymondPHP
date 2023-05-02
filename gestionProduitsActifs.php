@@ -50,12 +50,15 @@ require_once("config/connexion.php");
                     while ($row = $res->fetch_assoc()) {
 
                       //Aller chercher les images du produit en cours
-                      $chemin = "";
-                      $queryImage = "SELECT ImageChemin FROM `dbo.imageproduit` WHERE IdProduitFk = ".$row['IdProduit']."";
+                      // $chemin = "";
+
+                      //SELECT ImageChemin FROM `dbo.imageproduit` WHERE IdProduitFk= 93 LIMIT 1
+                     $queryImage = "SELECT ImageChemin FROM `dbo.imageproduit` WHERE IdProduitFk = ".$row['IdProduit']." LIMIT 1";
+                  
                       //Faire la query
                       $resImage = $connect->query($queryImage);
                       //FIN aller chercher les images du produits
-                     
+                    
 
                       echo  
                         " <div class='col-md-4'> <!--SAME-->

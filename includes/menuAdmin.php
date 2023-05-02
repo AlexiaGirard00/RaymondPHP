@@ -18,7 +18,7 @@
                             <a href="gestionProduitsActifs.php">Produits Actif</a>
                         </li>
                         <li>
-                            <a href="gestionProduitsAnterieurescopy.php">Produits Antérieure</a>
+                            <a href="gestionProduitsAnterieures.php">Produits Antérieure</a>
                         </li>
                     </ul>
                 </li>

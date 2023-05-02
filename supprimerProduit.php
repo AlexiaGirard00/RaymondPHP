@@ -1,7 +1,4 @@
-
 <?php 
-
-
     require "config/connexion.php";
 
     //if(isset($_POST["id"]) && !empty(trim($_POST["id"]))){

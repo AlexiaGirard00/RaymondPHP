@@ -33,11 +33,10 @@ require_once("config/connexion.php");
           
               <a class="btn btn-dark mt-3 mb-3" href="ajouterProduit.php" style="color: #7386D5;">Ajouter</a>
               <div class="row d-flex">
-             
                 <?php
 
                     //Aller chercher tous les produits + le nom de la categorie
-                    $query = "SELECT p.IdProduit, p.NomProduit, p.DescriptionProduit, p.PrixProduit, c.NomCategorie, p.ImageChemin, p.ActifProduit FROM `dbo.produits` AS p JOIN `dbo.categories` AS c on p.IdCategorieFK = c.IdCategorie WHERE p.ActifProduit = 0";
+                    $query = "SELECT p.IdProduit, p.NomProduit, p.DescriptionProduit, p.PrixProduit, c.NomCategorie, p.ActifProduit FROM `dbo.produits` AS p JOIN `dbo.categories` AS c on p.IdCategorieFk = c.IdCategorie WHERE p.ActifProduit = 0";
 
                     //Faire la query
                     $res = $connect->query($query);
@@ -49,14 +48,35 @@ require_once("config/connexion.php");
 
                     //Lire chaque ligne
                     while ($row = $res->fetch_assoc()) {
+
+                      //Aller chercher les images du produit en cours
+                      $chemin = "";
+                      $queryImage = "SELECT ImageChemin FROM `dbo.imageproduit` WHERE IdProduitFk = ".$row['IdProduit']."";
+                      //Faire la query
+                      $resImage = $connect->query($queryImage);
+                      //FIN aller chercher les images du produits
+                     
+
                       echo  
                         " <div class='col-md-4'> <!--SAME-->
                                 <div class='work-box'><!--SAME-->
-                                  <a href=".$row['ImageChemin']." data-gallery='portfolioGallery' class='portfolio-lightbox'><!--Image agrandit-->
-                                    <div class='work-img'><!--SAME-->
-                                      <img src='".$row['ImageChemin']."' alt='produit' class='img-fluid'><!--Image-->
-                                    </div>
-                                  </a>
+                                  <!-- INSERER LE CAROUSSEL ICI -->                               
+
+                                  <section id='portfolio-details' class='portfolio-details'>
+                                    <div class='portfolio-details-slider swiper'>
+                                      <div class='swiper-wrapper align-items-center'>";
+
+                                    while ($rowImage = mysqli_fetch_array($resImage)) {
+                                    echo "<div class='swiper-slide'>
+                                            <img src='".$rowImage['ImageChemin']."' alt='Image'>
+                                          </div>";
+                                    }
+
+                              echo "  </div>
+                                    <div class='swiper-pagination'></div>
+                                  </div>
+                                </section>
+                                <!-- FIN INSERER LE CAROUSSEL ICI -->
                                   <div class='work-content'><!--SAME-->
                                     <div class='row'><!--SAME-->
                                       <div class='col-sm-8'><!--SAME-->
@@ -84,6 +104,8 @@ require_once("config/connexion.php");
         </div>
       </div>
 
+                                 
+
 
 </body>
 <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -100,6 +122,7 @@ require_once("config/connexion.php");
     });
   });
 </script>
+<script src="assets/js/main.js"></script>
 
 
 
