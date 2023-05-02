@@ -38,17 +38,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_POST["image1"]) && !empty(trim($_POST["image1"]))) {
         if ($_POST['image1'] = '1') {
+            $sqlImage = "SELECT ImageChemin FROM `dbo.imageproduit` WHERE IdImageProduit = " . $_POST['checkimage1'] . "";
+            $stmt = $pdo->prepare($sqlImage);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $row = $stmt->fetch();
+            echo $sqlImage;
+
+            //Effacer le fichier X dans le repertoire uploads et ajouter ce code dans les 3 deletes
+      
+                if (unlink($row["ImageChemin"])) {
+                    echo 'Le fichier ' . $row["ImageChemin"]. ' a bien été effacé';
+                } else {
+                    echo 'Le fichier ' . $row["ImageChemin"]. ' n\'a pas pu être effacé';
+                }
+            
+
             $sqlImage = "DELETE FROM `dbo.imageproduit` WHERE IdImageProduit = " . $_POST['checkimage1'] . "";
             $stmt = $pdo->prepare($sqlImage);
             $stmt->execute();
 
-            //Effacer le fichier X dans le repertoire uploads
-            
-            // if (unlink()) {
-            //     echo 'Le fichier ' . $. ' a bien été effacé';
-            // } else {
-            //     echo 'Le fichier ' . $. ' n\'a pas pu être effacé';
-            // }
+           
         }
     }
     if (isset($_POST["image2"]) && !empty(trim($_POST["image2"]))) {
@@ -56,13 +66,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $sqlImage = "DELETE FROM `dbo.imageproduit` WHERE IdImageProduit = " . $_POST['checkimage2'] . "";
             $stmt = $pdo->prepare($sqlImage);
             $stmt->execute();
+            echo "DELETE FROM `dbo.imageproduit` WHERE IdImageProduit = " . $_POST['checkimage2'] . "";
         }
     }
     if (isset($_POST["image3"]) && !empty(trim($_POST["image3"]))) {
         if ($_POST['image3'] = '3') {
-            $sqlImage = "DELETE FROM `dbo.imageproduit` WHERE IdImageProduit = " . $_POST['checkimage1'] . "";
+            $sqlImage = "DELETE FROM `dbo.imageproduit` WHERE IdImageProduit = " . $_POST['checkimage3'] . "";
             $stmt = $pdo->prepare($sqlImage);
             $stmt->execute();
+            echo "DELETE FROM `dbo.imageproduit` WHERE IdImageProduit = " . $_POST['checkimage3'] . "";
         }
     }
 

@@ -196,6 +196,7 @@
         //Mettre actif
         $EstActif = 1;
         $DateProduit = Date("Y/m/d");
+     
 
         //Vérifier les inputs avant de les envoyer à la BD
         if(empty($nom_err) && empty($desc_err) && empty($dim_err) && empty($typeBois_err) && empty($prix_err)&& empty($image_err)){

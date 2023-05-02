@@ -36,7 +36,7 @@ require_once("config/connexion.php");
                 <?php
 
                     //Aller chercher tous les produits + le nom de la categorie
-                    $query = "SELECT p.IdProduit, p.NomProduit, p.DescriptionProduit, p.PrixProduit, c.NomCategorie, p.ActifProduit FROM `dbo.produits` AS p JOIN `dbo.categories` AS c on p.IdCategorieFk = c.IdCategorie WHERE p.ActifProduit = 1";
+                    $query = "SELECT p.IdProduit, p.NomProduit, p.DescriptionProduit, p.PrixProduit, c.NomCategorie, p.ActifProduit, p.DateProduit FROM `dbo.produits` AS p JOIN `dbo.categories` AS c on p.IdCategorieFk = c.IdCategorie WHERE p.ActifProduit = 1";
 
                     //Faire la query
                     $res = $connect->query($query);
@@ -85,7 +85,7 @@ require_once("config/connexion.php");
                                       <div class='col-sm-8'><!--SAME-->
                                         <h2 class='w-title'>".$row['NomProduit']."</h2><!--Titre/NomProduit-->
                                         <div class='w-more'><!--SAME-->
-                                          <span class='w-ctegory'>".$row['NomCategorie']."</span> / <span class='w-date'>".$row['PrixProduit']." $ </span><!--categorieProduit/PrixProduit-->
+                                          <span class='w-ctegory'>".$row['NomCategorie']."</span> / <span class='w-date'>".$row['PrixProduit']." $ </span> / <span class='w-date'>".$row['DateProduit']." 
                                         </div>
                                       </div>
                                       <div class='col-sm-4'><!--SAME-->
