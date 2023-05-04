@@ -1,7 +1,9 @@
 <?php
 
-    //section servant à authentifier l'utilisateur avec les données de la BD 
-    require('connexion.php');
+        //section servant à authentifier l'utilisateur avec les données de la BD 
+        require('connexion.php');
+
+
 
     $username = $_POST['floatingInput'];
     $password = $_POST['floatingPassword'];

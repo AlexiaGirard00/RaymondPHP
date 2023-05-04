@@ -39,12 +39,12 @@ $resImage = $connect->query($queryImage);
 
 
 
-<div class="hero hero-single route bg-image" style="background-image: url(assets/img/overlay-bg.jpg)">
+<div class="hero hero-single route bg-image" style="background-image: url(assets/img/overlay-bg1.jpg)">
   <div class="overlay-mf"></div>
   <div class="hero-content display-table">
     <div class="table-cell">
       <div class="container">
-        <h2 class="hero-title mb-4">Détails de la création </h2>
+        <h2 class="hero-title mb-4" style="color: black;">Détails de la création </h2>
         <!-- <ol class="breadcrumb d-flex justify-content-center">
             <li class="breadcrumb-item">
               <a href="#">Home</a>
@@ -89,17 +89,18 @@ $resImage = $connect->query($queryImage);
             <ul>
               <li><strong>Catégorie</strong>: <?php echo $row["NomCategorie"]; ?></li>
               <!-- <li><strong>Nom</strong>: <?php echo $row["NomProduit"]; ?></li> -->
-              <li><strong>Description</strong>: <?php echo $row["DescriptionProduit"]; ?></li>
-              <li><strong>Dimension</strong>: <?php echo $row["DimensionProduit"]; ?></li>
               <li><strong>Type de bois</strong>: <?php echo $row["TypeDeBoisProduit"]; ?></li>
+              <li><strong>Dimension</strong>: <?php echo $row["DimensionProduit"]; ?></li>
 
-              <?php if($row["NomCategorie"] == 'Urnes funéraires'){?>
+
+              <?php if ($row["NomCategorie"] == 'Urnes funéraires') { ?>
                 <li><strong>Capacité</strong>: <?php echo $row["CapaciteProduit"]; ?> </li>
-              <?php }else{?>
-                  <li><strong>Capacité</strong>: <?php echo 'N/A' ?> </li>     
-              <?php };?>
+              <?php } else { ?>
+                <li><strong>Capacité</strong>: <?php echo 'N/A' ?> </li>
+              <?php }; ?>
+              <li><strong>Description</strong>: <?php echo $row["DescriptionProduit"]; ?></li>
               <li><strong>Prix</strong>: <?php echo $row["PrixProduit"]; ?> $</li>
-              <li><strong>Date d'inscription</strong>: <?php echo $row["DateProduit"]; ?></li>
+
             </ul>
           </div>
 
@@ -116,7 +117,7 @@ $resImage = $connect->query($queryImage);
         <div class="portfolio-description" style="text-align: -webkit-center;">
           <h3>Vous êtes interessé par mes créations ?</h3>
           <p>
-            Contactez-moi via le formulaire <a href="index.php#contact" style="color:blue;"> Contact </a> ou via <a href="https://www.facebook.com/profile.php?id=100012047497640" style="color:blue;">Facebook</a> .
+            Contactez-moi via le formulaire <a href="index.php#contact" style="color:#606D20; font:larger;"><b> Contact</b> </a> ou via <a href="https://www.facebook.com/profile.php?id=100012047497640" style="color:#606D20;"><b>Facebook</b></a> .
           </p>
         </div>
       </div>

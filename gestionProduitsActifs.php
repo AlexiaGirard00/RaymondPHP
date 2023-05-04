@@ -79,26 +79,25 @@ require_once("config/connexion.php");
                                     <div class='swiper-pagination'></div>
                                   </div>
                                 </section>
-                                <!-- FIN INSERER LE CAROUSSEL ICI -->
                                   <div class='work-content'><!--SAME-->
                                     <div class='row'><!--SAME-->
                                       <div class='col-sm-8'><!--SAME-->
                                         <h2 class='w-title'>".$row['NomProduit']."</h2><!--Titre/NomProduit-->
                                         <div class='w-more'><!--SAME-->
-                                          <span class='w-ctegory'>".$row['NomCategorie']."</span> / <span class='w-date'>".$row['PrixProduit']." $ </span> / <span class='w-date'>".$row['DateProduit']." 
+                                          <span class='w-ctegory'>".$row['NomCategorie']."</span> / <span class='w-date'>".$row['PrixProduit']." $ </span> / <span class='w-date'>". date('j M Y', strtotime($row['DateProduit']))." 
                                         </div>
                                       </div>
                                       <div class='col-sm-4'><!--SAME-->
                                         <div class=''><!--SAME-->                             
                                               <a href='modifierProduit.php?id=$row[IdProduit]' class='btn btn-dark' style='color:#7386D5;'><span class='bi bi-pencil-square' style='color:#7386D5;'></span></a>
                                               <a href='supprimerProduit.php?id=$row[IdProduit]&nom=$row[NomProduit]&actif=$row[ActifProduit]' class='btn btn-dark' style='color:#7386D5;'><span class='bi bi-trash3-fill' style='color:#7386D5;'></span></a>                             
-                                        </div>
+                                              
+                                              </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>";
-                       
+                              </div>";                       
                         }
                         ?>
               </div> 

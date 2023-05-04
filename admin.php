@@ -10,7 +10,7 @@
 <?php include "includes/menuAdmin.php"; ?>
 
         
- <p><h6 style="width: 50%;" class=""> Bonjour , <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Soit Bien !</h6></p>
+ <p><h6 style="width: 50%;" class=""> Bonjour , <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Sois Bien !</h6></p>
      
   
   <p>  <div id="plemx-root"></div> 

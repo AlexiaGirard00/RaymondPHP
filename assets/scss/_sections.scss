@@ -125,7 +125,7 @@
 .work-box {
   @extend .box-shadow;
   margin-bottom: 3rem;
-  backface-visibility: hidden;
+  // backface-visibility: hidden;
   background-color: #fff;
 
   &:hover {
