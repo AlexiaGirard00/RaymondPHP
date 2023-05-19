@@ -4,8 +4,6 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="copyright-box">
-            <!-- &copy; Copyright  <?php echo date('Y'); ?><strong><span> Marché Conclu</span></strong>. All Rights Reserved -->
-            <!-- <p class="copyright">&copy; Copyright <strong>DevFolio</strong>. All Rights Reserved</p> -->
             <p class="copyright">&copy; <?php echo date('Y'); ?><strong> Marché Conclu</strong></p>
 
           </div>

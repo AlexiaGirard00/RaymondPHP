@@ -16,41 +16,17 @@ if (!isset($_SESSION)) {
   <div class="hero-content display-table">
     <div class="table-cell">
       <div class="container">
-        <!--<p class="display-6 color-d">Hello, world!</p>-->
         <h1 class="hero-title mb-4">Tourneur sur bois</h1>
         <h2 class="mb-2" style="color:#8D9D2B">Raymond St-michel</h2>
-
-        <!-- <p class="hero-subtitle"><span class="typed" style="color:saddlebrown" data-typed-items="Raymond St-michel"></span></p> -->
-        <!-- <p class="pt-3"><a class="btn btn-primary btn js-scroll px-4" href="#about" role="button">Learn More</a></p> -->
       </div>
     </div>
   </div>
 </div><!-- End Hero Section -->
 
-
-<!-- ======= Hero Section ======= -->
-<!-- <div id="hero" class="hero route bg-image" style="background-color:black;">
-  <div class="overlay-itro"></div>
-  <div class="hero-content display-table">
-    <div class="table-cell">
-      <div class="container">
-        <p class="display-6 color-d">Hello, world!</p>
-        <h1 class="hero-title mb-4">I am Morgan Freeman</h1>
-          <p class="hero-subtitle"><span class="typed" data-typed-items="Designer, Developer, Freelancer, Photographer"></span></p> -->
-<!-- <img src="assets/img/logo.png" alt="" class="responsive">
-        <p class="hero-subtitle img-centered mt-5"><span class="typed" data-typed-items="Tourneur sur bois"></span></p> -->
-<!-- <p class="pt-3"><a class="btn btn-primary btn js-scroll px-4" href="#about" role="button">Learn More</a></p> -->
-<!-- </div>
-    </div>
-  </div> 
-</div> -->
-
 <main id="main">
-
   <!-- ======= Boutique Section ======= -->
-  <!-- https://stackoverflow.com/questions/53761176/bootstrap-4-cards-with-php-foreach-loop -->
   <section id="boutique" class="portfolio-mf sect-pt4 route">
-    <div class="container">
+    <div class="container" style="width: 1600px;">
       <!--- Sous section titre et description de la section boutique --->
       <div class="row">
         <div class="col-sm-12">
@@ -69,26 +45,45 @@ if (!isset($_SESSION)) {
       <!-- Boucle pour afficher tous les produits -->
       <div class='row d-flex'><!--SAME-->
         <?php
-        $resultat = mysqli_query($connect, "SELECT `dbo.produits`.`IdProduit`,`NomProduit`, `dbo.categories`.`NomCategorie`, `dbo.produits`.`PrixProduit`, `dbo.produits`.`ActifProduit`
+        $filtres = mysqli_query($connect, "SELECT `dbo.categories`.`IdCategorie`, `dbo.categories`.`NomCategorie` FROM `dbo.categories` WHERE `dbo.categories`.`ActifCategorie` = true;");
+        ?>
+        <!-- Inserer bouton de tri! -->
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul id="portfolio-flters">
+              <li data-filter="*" class=" btn filter-active">Tous</li>
+              <?php
+              while ($row = mysqli_fetch_array($filtres)) {
+                echo  "<li data-filter='.filter-" . $row['IdCategorie'] . "' class='btn'>" . $row['NomCategorie'] . "</li>";
+              }
+              ?>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+
+          <?php
+          $resultat = mysqli_query($connect, "SELECT `dbo.produits`.`IdProduit`,`NomProduit`, `dbo.categories`.`NomCategorie`, `dbo.produits`.`IdCategorieFK`, `dbo.produits`.`PrixProduit`, `dbo.produits`.`ActifProduit`
           FROM `dbo.produits` 
             LEFT JOIN `dbo.categories` ON `dbo.produits`.`IdCategorieFk` = `dbo.categories`.`IdCategorie` WHERE `dbo.produits`.`ActifProduit` = TRUE");
-        //boucle pour afficher toute les cartes
+          //boucle pour afficher toute les cartes
 
-        while ($row = mysqli_fetch_array($resultat)) {
+          while ($row = mysqli_fetch_array($resultat)) {
 
-          //Aller chercher les images du produit en cours
-          $chemin = "";
-          $queryImage = "SELECT ImageChemin FROM `dbo.imageproduit` WHERE IdProduitFk = " . $row['IdProduit'] . "";
-          //Faire la query
-          $resImage = $connect->query($queryImage);
-          $rowImage = $resImage->fetch_array();
-          if (!empty($rowImage)) {
-            $chemin = $rowImage['ImageChemin'];
-          }
-          //FIN aller chercher les images du produits
+            //Aller chercher les images du produit en cours
+            $chemin = "";
+            $queryImage = "SELECT ImageChemin FROM `dbo.imageproduit` WHERE IdProduitFk = " . $row['IdProduit'] . "";
+            //Faire la query
+            $resImage = $connect->query($queryImage);
+            $rowImage = $resImage->fetch_array();
+            if (!empty($rowImage)) {
+              $chemin = $rowImage['ImageChemin'];
+            }
+            //FIN aller chercher les images du produits
 
-          //echo pour eviter les erreurs                    
-          echo  " <div class='col-md-4'> <!--SAME-->
+            //echo pour eviter les erreurs                    
+            echo  " <div class='col-md-3 portfolio-item filter-" . $row['IdCategorieFK'] . "'> <!--SAME-->
                       <div class='work-box'><!--SAME-->
 
                         <a href=" . $chemin . " data-gallery='portfolioGallery' class='portfolio-lightbox'><!--Image agrandit-->
@@ -114,13 +109,14 @@ if (!isset($_SESSION)) {
                         </div>
                       </div>
                     </div>";
-        } //input type 'hidden' permet de caché l'imput.. donc présent mais non vue pas l'utilisateur
-        // mysqli_close($connect);
-        ?>
+          } //input type 'hidden' permet de caché l'imput.. donc présent mais non vue pas l'utilisateur
+          // mysqli_close($connect);
+          ?>
+        </div>
       </div>
     </div>
   </section><!-- End Boutique Section -->
-
+  
 
   <!-- ======= Counter Section ======= -->
   <div class="section-counter paralax-mf bg-image" style="background-image: url(assets/img/overlay-bg1.png)">
@@ -306,27 +302,7 @@ if (!isset($_SESSION)) {
                       <img src="assets/img/raymond2.jpg" class="img-fluid rounded b-shadow-a" alt="Raymond">
                     </div>
                   </div>
-
                 </div>
-                <!-- <div class="skill-mf">
-                    <p class="title-s">Skill</p>
-                    <span>HTML</span> <span class="pull-right">85%</span>
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <span>CSS3</span> <span class="pull-right">75%</span>
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <span>PHP</span> <span class="pull-right">50%</span>
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <span>JAVASCRIPT</span> <span class="pull-right">90%</span>
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div> -->
               </div>
               <div class="col-md-6">
                 <div class="about-me pt-4 pt-md-0">
@@ -350,126 +326,6 @@ if (!isset($_SESSION)) {
       </div>
     </div>
   </section><!-- End A propos Section -->
-
-
-
-
-
-
-
-  <!-- ======= Blog Section ======= -->
-  <!-- <section id="blog" class="blog-mf sect-pt4 route">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="title-box text-center">
-              <h3 class="title-a">
-                Blog
-              </h3>
-              <p class="subtitle-a">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              </p>
-              <div class="line-mf"></div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card card-blog">
-              <div class="card-img">
-                <a href="blog-single.php"><img src="assets/img/post-1.jpg" alt="" class="img-fluid"></a>
-              </div>
-              <div class="card-body">
-                <div class="card-category-box">
-                  <div class="card-category">
-                    <h6 class="category">Travel</h6>
-                  </div>
-                </div>
-                <h3 class="card-title"><a href="blog-single.php">See more ideas about Travel</a></h3>
-                <p class="card-description">
-                  Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent sapien massa, convallis
-                  a pellentesque nec,
-                  egestas non nisi.
-                </p>
-              </div>
-              <div class="card-footer">
-                <div class="post-author">
-                  <a href="#">
-                    <img src="assets/img/testimonial-2.jpg" alt="" class="avatar rounded-circle">
-                    <span class="author">Morgan Freeman</span>
-                  </a>
-                </div>
-                <div class="post-date">
-                  <span class="bi bi-clock"></span> 10 min
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card card-blog">
-              <div class="card-img">
-                <a href="blog-single.php"><img src="assets/img/post-2.jpg" alt="" class="img-fluid"></a>
-              </div>
-              <div class="card-body">
-                <div class="card-category-box">
-                  <div class="card-category">
-                    <h6 class="category">Web Design</h6>
-                  </div>
-                </div>
-                <h3 class="card-title"><a href="blog-single.php">See more ideas about Travel</a></h3>
-                <p class="card-description">
-                  Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent sapien massa, convallis
-                  a pellentesque nec,
-                  egestas non nisi.
-                </p>
-              </div>
-              <div class="card-footer">
-                <div class="post-author">
-                  <a href="#">
-                    <img src="assets/img/testimonial-2.jpg" alt="" class="avatar rounded-circle">
-                    <span class="author">Morgan Freeman</span>
-                  </a>
-                </div>
-                <div class="post-date">
-                  <span class="bi bi-clock"></span> 10 min
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card card-blog">
-              <div class="card-img">
-                <a href="blog-single.php"><img src="assets/img/post-3.jpg" alt="" class="img-fluid"></a>
-              </div>
-              <div class="card-body">
-                <div class="card-category-box">
-                  <div class="card-category">
-                    <h6 class="category">Web Design</h6>
-                  </div>
-                </div>
-                <h3 class="card-title"><a href="blog-single.php">See more ideas about Travel</a></h3>
-                <p class="card-description">
-                  Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent sapien massa, convallis
-                  a pellentesque nec,
-                  egestas non nisi.
-                </p>
-              </div>
-              <div class="card-footer">
-                <div class="post-author">
-                  <a href="#">
-                    <img src="assets/img/testimonial-2.jpg" alt="" class="avatar rounded-circle">
-                    <span class="author">Morgan Freeman</span>
-                  </a>
-                </div>
-                <div class="post-date">
-                  <span class="bi bi-clock"></span> 10 min
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>End Blog Section -->
 
   <!-- ======= Contact Section ======= -->
   <section id="contact" class="paralax-mf footer-paralax bg-image sect-mt4 route" style="background-image: url(assets/img/overlay-bg1.png)">
@@ -539,10 +395,6 @@ if (!isset($_SESSION)) {
                     <div>
                       <b>MODE DE PAIEMENT : </b> Virement Interac
                     </div>
-
-
-
-
                     </p>
                     <ul class="list-ico">
                       <li><span class="bi bi-person-fill"></i></span> Raymond St-Michel</li>
@@ -555,14 +407,6 @@ if (!isset($_SESSION)) {
                   </div>
 
                   <div class="socials">
-
-
-                    <!-- <ul>
-                        <li><a href=""><span class="ico-circle"><i class="bi bi-facebook"></i></span></a></li>
-                        <li><a href=""><span class="ico-circle"><i class="bi bi-instagram"></i></span></a></li>
-                        <li><a href=""><span class="ico-circle"><i class="bi bi-twitter"></i></span></a></li>
-                        <li><a href=""><span class="ico-circle"><i class="bi bi-linkedin"></i></span></a></li>
-                      </ul> -->
                   </div>
                 </div>
               </div>
@@ -576,3 +420,7 @@ if (!isset($_SESSION)) {
 </main><!-- End #main -->
 
 <?php include "includes/piedDePage.php"; ?>
+  <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min2.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>

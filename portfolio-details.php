@@ -11,7 +11,6 @@ include_once "includes/menuDetails.php";
 //Trouver le id
 $id = trim($_GET["id"]);
 
-
 //Requete SQL
 //Requete  Update
 $sql = "SELECT * FROM `dbo.produits` p LEFT JOIN `dbo.categories` c on p.IdCategorieFk = c.IdCategorie  WHERE IdProduit = $id ";
@@ -27,17 +26,7 @@ $queryImage = "SELECT ImageChemin FROM `dbo.imageproduit` WHERE IdProduitFk = " 
 $resImage = $connect->query($queryImage);
 
 //FIN aller chercher les images du produits
-
-
-
-
-
-
-
-
 ?>
-
-
 
 <div class="hero hero-single route bg-image" style="background-image: url(assets/img/overlay-bg1.jpg)">
   <div class="overlay-mf"></div>
@@ -103,13 +92,6 @@ $resImage = $connect->query($queryImage);
 
             </ul>
           </div>
-
-          <!-- <div class="portfolio-description">
-              <h3>Vous êtes interessé par mes créations ?</h3>
-              <p>
-                Contactez-moi via le formulaire <a href="index.php#contact" style="color:blue;"> Contact </a> ou via <a href="https://www.facebook.com/profile.php?id=100012047497640" style="color:blue;">Facebook</a> .     
-              </p>
-            </div> -->
         </div>
 
       </div>

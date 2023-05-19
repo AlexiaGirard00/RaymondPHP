@@ -26,16 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     function resizeImage($resourceType, $image_width, $image_height, $resizeWidth, $resizeHeight)
     {
-        //$resizeWidth = 100;
-        //$resizeHeight = 100;
         $imageLayer = imagecreatetruecolor($resizeWidth, $resizeHeight);
         imagecopyresampled($imageLayer, $resourceType, 0, 0, 0, 0, $resizeWidth, $resizeHeight, $image_width, $image_height);
         return $imageLayer;
     }
 
-
     // verifier si case est coché pour effacer = delete l'entré via ID du CHECK
-
     if (isset($_POST["image1"]) && !empty(trim($_POST["image1"]))) {
         if ($_POST['image1'] = '1') {
             $sqlImage = "SELECT ImageChemin FROM `dbo.imageproduit` WHERE IdImageProduit = " . $_POST['checkimage1'] . "";
@@ -46,19 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo $sqlImage;
 
             //Effacer le fichier X dans le repertoire uploads et ajouter ce code dans les 3 deletes
-      
-                if (unlink($row["ImageChemin"])) {
-                    echo 'Le fichier ' . $row["ImageChemin"]. ' a bien été effacé';
-                } else {
-                    echo 'Le fichier ' . $row["ImageChemin"]. ' n\'a pas pu être effacé';
-                }
+            if (unlink($row["ImageChemin"])) {
+                echo 'Le fichier ' . $row["ImageChemin"]. ' a bien été effacé';
+            } else {
+                echo 'Le fichier ' . $row["ImageChemin"]. ' n\'a pas pu être effacé';
+            }
             
-
             $sqlImage = "DELETE FROM `dbo.imageproduit` WHERE IdImageProduit = " . $_POST['checkimage1'] . "";
             $stmt = $pdo->prepare($sqlImage);
             $stmt->execute();
-
-           
         }
     }
     if (isset($_POST["image2"]) && !empty(trim($_POST["image2"]))) {
@@ -78,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-
     $uploadPath = "./uploads/";
     $imageProcess = 0;
     $i = 0;
@@ -93,14 +84,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $statusMsg = $errorMsg = $insertValuesSQL = $errorUpload = $errorUploadType = ''; 
             if (in_array($fileType, $allowTypes)) {
                 // Upload file to server
-
                 if (move_uploaded_file($_FILES["upload_image"]["tmp_name"][$key], $targetFilePath)) {
                     $sourceProperties = getimagesize($targetFilePath);
                     $resizeFileName = substr(strval(microtime()), 2, 8);
                     $uploadImageType = $sourceProperties[2];
                     $sourceImageWidth = $sourceProperties[0];
                     $sourceImageHeight = $sourceProperties[1];
-                    // Check whether file type is valid 
+                   
                     if ($sourceImageWidth > 416) {
                         $new_width = 416;
                         $new_height = $sourceImageHeight / ($sourceImageWidth / 416);
@@ -108,7 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $new_width = $sourceImageWidth;
                         $new_height = $sourceImageHeight;
                     }
-
 
                     switch ($uploadImageType) {
                         case IMAGETYPE_JPEG:
@@ -133,25 +122,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             break;
                     }
 
-
-
                     unlink($targetFilePath);
-                    //Array Image db insert sql 
+                    
                     $ArrayImageChemin[$i] = $uploadPath . "thump_" . $resizeFileName . '.' . $fileType;
-                } else {
+                }else {
                     $errorUpload .= $_FILES['upload_image']['name'][$key] . ' | ';
                 }
-            } else {
+            }else {
                 $errorUploadType .= $_FILES['upload_image']['name'][$key] . ' | ';
             }
             $i = $i + 1;
-
         }
     }
 }
-
-
-
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -197,11 +180,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $PrixProduit = $input_prix;
     }
 
-    //******** CODE POUR L'IMAGE********** */
-    //Valider l'image
-
-    $ImageChemin = "";
-
     //Vérifier la valeur du select (categorie)
     $IdCategorie = $_POST['NomCategorie'];
 
@@ -244,9 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             //Execute
             if ($stmt->execute()) {
-                // upload des images
-                //Execute
-               
+            
                 $lastid = $id;
                
                 for ($i = 0; $i < sizeof($ArrayImageChemin); $i++) {
@@ -262,20 +238,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                 }
                 
-
-
                 if ($EstActif == 1) {
 ?>
                     <script type="text/javascript">
-                       //  window.location.href = "gestionProduitsActifs.php";
+                       window.location.href = "gestionProduitsActifs.php";
                     </script>
                 <?php
                 } else {
                 ?>
                     <script type="text/javascript">
-                     // window.location.href = "gestionProduitsAnterieures.php";
+                        window.location.href = "gestionProduitsAnterieures.php";
                     </script>
-<?php
+                <?php
                 }
             } else {
                 echo msgErreur;
@@ -285,9 +259,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //fermer statement et connection
     unset($stmt);
     unset($pdo);
-} else {
+}else {
     // afficher produit
-
     if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
         $id = trim($_GET["id"]);
 
@@ -312,26 +285,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $PrixProduit = $row["PrixProduit"];
 
                     $EstActif = $row["ActifProduit"];
-                } else {
+                }else {
                     echo msgErreur;
                 }
-            } else {
+            }else {
                 echo msgErreur;
             }
         }
         //fermer statement et connection
         unset($stmt);
         unset($pdo);
-    } else {
+    }else {
         echo msgErreur;
     }
 }
 ?>
 
 <div class="container my-5">
-
     <div class="d-flex justify-content-end mt-5">
-        <a class="btn btn-secondary" href="admin.php">Retour</a>
+        <a class="btn btn-secondary" href=<?php echo ($EstActif == 1) ? "gestionProduitsActifs.php" : "gestionProduitsAnterieures.php"; ?>>Retour</a>
     </div>
     <h2>Modifier <?php echo $NomProduit; ?> </h2>
     <form action="<?php echo htmlspecialchars(($_SERVER["PHP_SELF"])); ?>" method="post" enctype="multipart/form-data">
@@ -344,7 +316,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="form-group">
             <label for="NomCategorie">Categorie</label>
             <select class="form-control" id="NomCategorie" name="NomCategorie" value="">
-                <?php
+<?php
                 //Aller chercher le id et le nom des categories
                 $sql = "SELECT IdCategorie, NomCategorie FROM `dbo.categories`";
 
@@ -354,17 +326,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 //Lire chaque ligne et ajouter option
                 while ($row = $res->fetch_assoc()) {
                     if ($row['IdCategorie'] == $IdCategorie) {
-                        echo "
-                                    <option value='$row[IdCategorie]' selected>$row[NomCategorie]</option>
-                                ";
-                    } else {
-                        echo "
-                                    <option value='$row[IdCategorie]'>$row[NomCategorie]</option>
-                                ";
+                        echo "<option value='$row[IdCategorie]' selected>$row[NomCategorie]</option>";
+                    }else {
+                        echo "<option value='$row[IdCategorie]'>$row[NomCategorie]</option>";
                     }
                 }
-
-                ?>
+?>
             </select>
         </div>
         <div class="form-group">
@@ -392,43 +359,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="number" min="0" class="form-control <?php echo (!empty($prix_err)) ? "is-invalid" : ""; ?>" id="PrixProduit" name="PrixProduit" value="<?php echo $PrixProduit; ?>" placeholder="Entrer le prix du produit">
             <span class="invalid-feedback"><?php echo $prix_err; ?></span>
         </div>
-
-        <!-- SECTION UPLOAD IMAGE & RESIZE-->
-        <!-- <div class="form-group col-md-3">
-                <label class="required">Width</label>
-                <input type="number" name="new_width" value="300" />
-            </div>
-            <div class="form-group col-md-3">
-                <label class="required">Height</label>
-                <input type="number" name="new_height" value="300"/>
-            </div> -->
-
-
         <div id="Upload1"></div>
         <div class="form-group">
-            <label class="required">Modifier Principale</label>
+            <label class="required">Image #1</label>
             <input id="image1" disabled type="file" name="upload_image[]" class="form-control">
         </div>
-
         <div id="Upload2"></div>
         <div class="form-group">
-            <label class="required">Modifier image #1</label>
+            <label class="required">Image #2</label>
             <input id="image2" disabled type="file" name="upload_image[]" class="form-control">
         </div>
 
         <div id="Upload3"></div>
         <div class="form-group">
-            <label class="required">Modifier image #2</label>
+            <label class="required">Image #3</label>
             <input id="image3" disabled type="file" name="upload_image[]" class="form-control">
         </div>
-
-
-
-        <?php
+<?php
         //Aller chercher les images du produit en cours
-        $chemin = "";
-
-
         $queryImage = "SELECT ImageChemin,IdImageProduit FROM `dbo.imageproduit` WHERE IdProduitFk = " . $id . "";
         //Faire la query
         $resImage = $connect->query($queryImage);
@@ -443,13 +391,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     '<input hidden name="checkimage<?php echo $numero ?>" value="<?php echo $rowImage['IdImageProduit']; ?>"' + '<label for="image" style="padding-left:1%;"> Cocher pour effacer</label><br>' +
                     '</div>';
             </script>
-            <!-- FIN INSERER LE CAROUSSEL ICI -->
         <?php $numero = $numero + 1;
-        } ?>
-
-
-        <!-- <input type="text" class="form-control <?php echo (!empty($image_err)) ? "is-invalid" : ""; ?>" id="ImageChemin" name="ImageChemin" value=""> -->
-
+        } 
+?>
         <div style="text-align: center;">
             <script id="mNCC" language="javascript">
                 medianet_width = "728";
@@ -458,8 +402,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 medianet_versionId = "3111299";
             </script>
         </div>
-        <!-- SECTION UPLOAD IMAGE & RESIZE-->
-
         <div class="form-group form-check">
             <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="actif" <?php echo ($EstActif == 1) ? "checked" : ""; ?>>
             <label class="form-check-label" for="exampleRadios1">Actif</label>
@@ -471,10 +413,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="mt-3 mb-3">
             <button type="submit" class="btn btn-primary">Modifier</button>
         </div>
-
-
     </form>
-
 </div>
 
 <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -490,6 +429,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $('#sidebar').toggleClass('active');
         });
     });
+
     // fonction pour activer/desactiver à partir d'un checkbox
     function activerFichier(obj) {
         if (eval('document.getElementById("image' + obj + '")').disabled == true) {
@@ -497,7 +437,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             eval('document.getElementById("image' + obj + '")').disabled = true;
         }
-
     }
 
     <?php for ($i = $numero; $i <= 3; $i++) {
